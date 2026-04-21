@@ -1,0 +1,11 @@
+.vs/
+.idea/
+*.user
+*.suo
+*.sln.docstates
+
+obj
+bin
+*.dll
+libs
+release
