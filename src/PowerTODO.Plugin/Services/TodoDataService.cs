@@ -6,38 +6,21 @@ using System.Linq;
 public class TodoDataService : ITodoDataService
 {
     // 类的私有只读成员变量 依赖注入
-    private readonly string _todoPath;
+    private readonly string _dataFilePath;
+    // 读取后的 todo 列表存在变量
+    private List<TodoItem> _todos;
 
-    public TodoDataService(string todoPath)
+    public TodoDataService(string dataDirectory)
     {
-        // 依赖（即存储位置）从外部“注入”进来
-        _todoPath = todoPath;
+        _dataFilePath = Path.Combine(dataDirectory, "todo.json");
     }
+
+    private void LoadTodos(){}
+    private void SaveTodos(){}
 
     public List<TodoItem> List(string? keyword = null)
     {
-        if (!Directory.Exists(_todoPath))
-            return new List<TodoItem>();
-
-        var files = Directory.GetFiles(_todoPath);
-
-        var result = files.Select(f => new TodoItem
-        {
-            Title = Path.GetFileName(f),
-            Path = f,
-            LastModified = File.GetLastWriteTime(f)
-        });
-
-        if (!string.IsNullOrWhiteSpace(keyword))
-        {
-            result = result.Where(x =>
-                x.Title.Contains(keyword, StringComparison.OrdinalIgnoreCase));
-        }
-
-        return result
-            .OrderByDescending(x => x.LastModified)
-            .Take(20)
-            .ToList();
+        return new List<TodoItem>();
     }
 
     public void Add(string path)
@@ -46,5 +29,15 @@ public class TodoDataService : ITodoDataService
         {
             File.Create(path).Dispose();
         }
+    }
+
+    public bool Delete(Guid id)
+    {
+        bool isTodo = false;
+        if (isTodo)
+        {
+            return true;
+        }
+        return false;
     }
 }

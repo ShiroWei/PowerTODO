@@ -20,25 +20,16 @@ public class Main : IPlugin
     public void Init(PluginInitContext context) { }
 
     // Query 方法
-    // TODO: 添加编辑Todo以及完成Todo功能
     public List<Result> Query(Query query)
     {
+        var querySearch = query.Search;
         
-        var items = _todoService.List(query.Search);
+        // TODO: 触发词没有内容
+        // TODO: 获取现有列表
+        // TODO: 构建结果列表
+        // TODO: 创建代办事项（常驻）
 
-        return items.Select(item => new Result
-        {
-            Title = item.Title,
-            SubTitle = item.Path,
-            Action = e =>
-            {
-                System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo
-                {
-                    FileName = item.Path,
-                    UseShellExecute = true
-                });
-                return true;
-            }
-        }).ToList();
+        return new List<Result>();
+
     }
 }
