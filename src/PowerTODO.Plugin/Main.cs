@@ -11,14 +11,15 @@ public class Main : IPlugin
 
     private ITodoDataService _todoService;
 
-    // 放在Main中防止可为空引用类型
-    public Main()
-    {
-        _todoService = new TodoDataService(@"D:\todo");
-    }
     // Init 方法
-    public void Init(PluginInitContext context) { }
-
+    public void Init(PluginInitContext context)
+    {
+        // 改为在软件目录下新建目录
+        string appDataPath = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
+        string todoDataPath = Path.Combine(appDataPath, "PowerTODO");
+        Directory.CreateDirectory(todoDataPath); // 确保目录存在防止空值
+        _todoService = new TodoDataService(todoDataPath);
+    }
     // Query 方法
     public List<Result> Query(Query query)
     {
