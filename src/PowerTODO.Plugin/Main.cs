@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel;
 using Wox.Plugin;
 
 public class Main : IPlugin
@@ -9,7 +10,7 @@ public class Main : IPlugin
     public string Name => "PowerTODO";
     public string Description => "A TODO manager for Powertoy Run";
 
-    private ITodoDataService _todoService;
+    private ITodoDataService _todoService = null!;
 
     // Init 方法
     public void Init(PluginInitContext context)
