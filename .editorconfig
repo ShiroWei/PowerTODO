@@ -1,0 +1,8 @@
+# 最顶行表示停止向上查找
+root = true
+
+# 对特定文件生效
+[*.cs]
+indent_style = space
+indent_size = 4
+csharp_new_line_before_open_brace = all

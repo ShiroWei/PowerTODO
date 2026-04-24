@@ -25,7 +25,7 @@ public class Main : IPlugin
     public List<Result> Query(Query query)
     {
         var querySearch = query.Search;
-        
+
         // TODO: 触发词没有内容
         // TODO: 获取现有列表
         // TODO: 构建结果列表

@@ -26,7 +26,7 @@ public class TodoDataService : ITodoDataService
             var json = File.ReadAllText(_dataFilePath);
             // 序列化后结果可能为 null 使用空合并运算符（??）保证后续操作合法
             _todos = JsonSerializer.Deserialize<List<TodoItem>>(json) ?? new List<TodoItem>();
-        } 
+        }
         else
         {
             _todos = new List<TodoItem>();
