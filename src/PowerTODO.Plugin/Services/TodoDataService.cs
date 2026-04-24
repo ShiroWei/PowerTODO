@@ -45,17 +45,22 @@ public class TodoDataService : ITodoDataService
         var results = new List<Result>();
         if (keyword != null)
         {
-            foreach (var item in _todos ?? new List<TodoItem>()) {
+            foreach (var item in _todos ?? new List<TodoItem>())
+            {
                 if (item.Title.ToLower().Contains(keyword.ToLower()))
                 {
                     var result = new Result
                     {
                         Title = item.Title,
+                        Action = e =>
+                        {
+                            return Delete(item); // 返回true表示操作成功，Run会关闭
+                        }
                     };
                     results.Add(result);
                 }
             }
-        } 
+        }
         return results;
     }
 
@@ -73,13 +78,9 @@ public class TodoDataService : ITodoDataService
         SaveTodos();
     }
 
-    public bool Delete(Guid id)
+    public bool Delete(TodoItem item)
     {
-        bool isTodo = false;
-        if (isTodo)
-        {
-            return true;
-        }
-        return false;
+        _todos?.Remove(item);
+        return true;
     }
 }

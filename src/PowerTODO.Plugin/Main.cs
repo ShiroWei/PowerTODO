@@ -52,6 +52,5 @@ public class Main : IPlugin
         results.AddRange(resultList);
 
         return results;
-
     }
 }

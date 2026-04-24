@@ -5,5 +5,5 @@ public interface ITodoDataService
 {
     List<Result> List(string? keyword = null);
     void Add(string todoContent);
-    bool Delete(Guid id);
+    bool Delete(TodoItem item);
 }
