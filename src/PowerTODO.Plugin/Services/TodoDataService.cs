@@ -4,9 +4,11 @@ using System.IO;
 using System.Linq;
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using Wox.Plugin;
 
 public class TodoDataService : ITodoDataService
 {
+    // TODO: 添加本地持久化开关
     // 类的私有只读成员变量 依赖注入
     private readonly string _dataFilePath;
     // 读取 todo 列表存储为变量
@@ -38,9 +40,23 @@ public class TodoDataService : ITodoDataService
         File.WriteAllText(_dataFilePath, json);
     }
 
-    public List<TodoItem> List(string? keyword = null)
+    public List<Result> List(string? keyword = null)
     {
-        return new List<TodoItem>();
+        var results = new List<Result>();
+        if (keyword != null)
+        {
+            foreach (var item in _todos ?? new List<TodoItem>()) {
+                if (item.Title.ToLower().Contains(keyword.ToLower()))
+                {
+                    var result = new Result
+                    {
+                        Title = item.Title,
+                    };
+                    results.Add(result);
+                }
+            }
+        } 
+        return results;
     }
 
     public void Add(string context)

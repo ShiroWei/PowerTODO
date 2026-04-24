@@ -36,6 +36,8 @@ public class Main : IPlugin
             var result = new Result
             {
                 Title = $"添加待办：{todoContent}",
+                // TODO: 添加提示和图标
+                // SubTitle = "", 
                 // IcoPath = "",
                 Action = e =>
                 {
@@ -45,7 +47,9 @@ public class Main : IPlugin
             };
             results.Add(result);
         }
-        // TODO: 获取现有列表
+        // 获取现有列表
+        var resultList = _todoService.List(todoContent);
+        results.AddRange(resultList);
 
         return results;
 
