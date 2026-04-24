@@ -24,14 +24,30 @@ public class Main : IPlugin
     // Query 方法
     public List<Result> Query(Query query)
     {
-        var querySearch = query.Search;
+        var todoContent = query.Search;
+        // 构建结果列表
+        var results = new List<Result>();
 
-        // TODO: 触发词没有内容
+        // 触发词没有内容
+        if (todoContent.Length == 0) { }
+        // 创建代办事项（常驻）
+        else
+        {
+            var result = new Result
+            {
+                Title = $"添加待办：{todoContent}",
+                // IcoPath = "",
+                Action = e =>
+                {
+                    _todoService.Add(todoContent);
+                    return true; // 返回true表示操作成功，Run会关闭
+                }
+            };
+            results.Add(result);
+        }
         // TODO: 获取现有列表
-        // TODO: 构建结果列表
-        // TODO: 创建代办事项（常驻）
 
-        return new List<Result>();
+        return results;
 
     }
 }

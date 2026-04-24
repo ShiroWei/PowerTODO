@@ -43,12 +43,18 @@ public class TodoDataService : ITodoDataService
         return new List<TodoItem>();
     }
 
-    public void Add(string path)
+    public void Add(string context)
     {
-        if (!File.Exists(path))
+        var todo = new TodoItem
         {
-            File.Create(path).Dispose();
-        }
+            Id = Guid.NewGuid(),
+            Title = context,
+            Path = _dataFilePath,
+            LastModified = DateTime.Now
+        };
+        // 空条件运算符防止 _todos 为 null 报 warning
+        _todos?.Add(todo);
+        SaveTodos();
     }
 
     public bool Delete(Guid id)
