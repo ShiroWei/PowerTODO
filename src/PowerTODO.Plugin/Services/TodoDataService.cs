@@ -13,6 +13,8 @@ public class TodoDataService : ITodoDataService
     private readonly string _dataFilePath;
     // 读取 todo 列表存储为变量
     private List<TodoItem>? _todos;
+    // 插件图标路径
+    private string iconPath = "Images/PowerTODO_dark.png";
 
     public TodoDataService(string dataDirectory)
     {
@@ -52,6 +54,7 @@ public class TodoDataService : ITodoDataService
                     var result = new Result
                     {
                         Title = item.Title,
+                        IcoPath = iconPath,
                         Action = e =>
                         {
                             return Delete(item); // 返回true表示操作成功，Run会关闭
