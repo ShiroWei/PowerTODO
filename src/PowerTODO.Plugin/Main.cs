@@ -13,8 +13,6 @@ public class Main : IPlugin
     public string Name => "PowerTODO";
     public string Description => "A TODO manager for Powertoy Run";
 
-    // 插件图标路径
-    private string iconPath = "Images/PowerTODO_dark.png";
 
     private ITodoDataService _todoService = null!;
 
@@ -42,18 +40,7 @@ public class Main : IPlugin
         // 创建代办事项（常驻）
         else
         {
-            var result = new Result
-            {
-                Title = $"添加待办：{todoContent}",
-                // TODO: 添加提示和图标
-                // SubTitle = "", 
-                IcoPath = iconPath,
-                Action = e =>
-                {
-                    _todoService.Add(todoContent);
-                    return true; // 返回true表示操作成功，Run会关闭
-                }
-            };
+            var result = _todoService.Creat(todoContent);
             results.Add(result);
         }
         // 获取现有列表

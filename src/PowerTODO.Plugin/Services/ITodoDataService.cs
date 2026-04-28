@@ -4,6 +4,7 @@ using Wox.Plugin;
 public interface ITodoDataService
 {
     List<Result> List(string? keyword = null);
-    void Add(string todoContent);
+    Result Creat(string context);
+    void Add(string content);
     bool Delete(TodoItem item);
 }

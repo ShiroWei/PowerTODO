@@ -1,20 +1,15 @@
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
 using System.Text.Json;
-using System.Text.Json.Serialization;
 using Wox.Plugin;
 
 public class TodoDataService : ITodoDataService
 {
     // TODO: 添加本地持久化开关
-    // 类的私有只读成员变量 依赖注入
+    
     private readonly string _dataFilePath;
     // 读取 todo 列表存储为变量
     private List<TodoItem>? _todos;
-    // 插件图标路径
-    private string iconPath = "Images/PowerTODO_dark.png";
+
+    private TodoFactory todoFactory = null!;
 
     public TodoDataService(string dataDirectory)
     {
@@ -44,38 +39,29 @@ public class TodoDataService : ITodoDataService
 
     public List<Result> List(string? keyword = null)
     {
+
+        if (keyword == null) return new List<Result>();
         var results = new List<Result>();
-        if (keyword != null)
+        foreach (var item in _todos ?? new List<TodoItem>())
         {
-            foreach (var item in _todos ?? new List<TodoItem>())
+            if (item.Title.ToLower().Contains(keyword.ToLower()))
             {
-                if (item.Title.ToLower().Contains(keyword.ToLower()))
-                {
-                    var result = new Result
-                    {
-                        Title = item.Title,
-                        IcoPath = iconPath,
-                        Action = e =>
-                        {
-                            return Delete(item); // 返回true表示操作成功，Run会关闭
-                        }
-                    };
-                    results.Add(result);
-                }
+                var result = todoFactory.listResult(item);
+                results.Add(result);
             }
         }
         return results;
     }
 
+    public Result Creat(string context)
+    {
+        var result = todoFactory.creatResult(context);
+        return result;
+    }
+
     public void Add(string context)
     {
-        var todo = new TodoItem
-        {
-            Id = Guid.NewGuid(),
-            Title = context,
-            Path = _dataFilePath,
-            LastModified = DateTime.Now
-        };
+        var todo = todoFactory.addTodoItem(context, _dataFilePath);
         // 空条件运算符防止 _todos 为 null 报 warning
         _todos?.Add(todo);
         SaveTodos();
