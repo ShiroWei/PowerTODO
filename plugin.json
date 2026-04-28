@@ -1,0 +1,13 @@
+{
+  "ID": "TodoPlugin",
+  "ActionKeyword": "todo",
+  "Name": "Todo Plugin",
+  "Description": "Show todo directory",
+  "Author": "Shiro_Wei",
+  "Version": "1.0.0",
+  "Language": "csharp",
+  "Website": "https://github.com/ShiroWei/PowerTODO",
+  "ExecuteFileName": "PowerTODO.Plugin.dll",
+  "IcoPathDark": "Images\\PowerTODO_dark.png",
+  "IcoPathLight": "Images\\PowerTODO_light.png"
+}
