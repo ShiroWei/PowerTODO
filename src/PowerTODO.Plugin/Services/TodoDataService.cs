@@ -69,7 +69,15 @@ public class TodoDataService : ITodoDataService
 
     public bool Delete(TodoItem item)
     {
-        _todos?.Remove(item);
+        if (item.isDone)
+        {
+            _todos?.Remove(item);
+        }
+        else
+        {
+            item.isDone = true;
+            item.Title = "[Done]" + item.Title;
+        }
         return true;
     }
 }

@@ -14,6 +14,7 @@ public class TodoFactory
             Id = Guid.NewGuid(),
             Title = context,
             Path = path,
+            isDone = false,
             LastModified = DateTime.Now
         };
         return todo;
