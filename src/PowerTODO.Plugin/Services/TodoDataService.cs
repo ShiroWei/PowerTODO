@@ -4,17 +4,21 @@ using Wox.Plugin;
 public class TodoDataService : ITodoDataService
 {
     // TODO: 添加本地持久化开关
-    
+
     private readonly string _dataFilePath;
     // 读取 todo 列表存储为变量
     private List<TodoItem>? _todos;
+    public static TodoDataService Instance { get; } = new TodoDataService();
 
-    private TodoFactory todoFactory = null!;
-
-    public TodoDataService(string dataDirectory)
+    private TodoDataService()
     {
+        // 改为在软件目录下新建目录
+        string appDataPath = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
+        string todoDataPath = Path.Combine(appDataPath, "PowerTODO");
+        Directory.CreateDirectory(todoDataPath); // 确保目录存在防止空值
+
         // Path.Combine 实现跨平台兼容性
-        _dataFilePath = Path.Combine(dataDirectory, "todo.json");
+        _dataFilePath = Path.Combine(todoDataPath, "todo.json");
         LoadTodos();
     }
 
@@ -46,7 +50,7 @@ public class TodoDataService : ITodoDataService
         {
             if (item.Title.ToLower().Contains(keyword.ToLower()))
             {
-                var result = todoFactory.listResult(item);
+                var result = TodoFactory.Instance.listResult(item);
                 results.Add(result);
             }
         }
@@ -55,13 +59,13 @@ public class TodoDataService : ITodoDataService
 
     public Result Creat(string context)
     {
-        var result = todoFactory.creatResult(context);
+        var result = TodoFactory.Instance.creatResult(context);
         return result;
     }
 
     public void Add(string context)
     {
-        var todo = todoFactory.addTodoItem(context, _dataFilePath);
+        var todo = TodoFactory.Instance.addTodoItem(context, _dataFilePath);
         // 空条件运算符防止 _todos 为 null 报 warning
         _todos?.Add(todo);
         SaveTodos();
@@ -78,6 +82,7 @@ public class TodoDataService : ITodoDataService
             item.isDone = true;
             item.Title = "[Done]" + item.Title;
         }
+        SaveTodos();
         return true;
     }
 }

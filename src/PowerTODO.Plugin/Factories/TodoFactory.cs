@@ -5,7 +5,8 @@ public class TodoFactory
 {
     // 插件图标路径
     private string iconPath = "Images/PowerTODO_dark.png";
-    private TodoDataService todoDataService = null!;
+    public static TodoFactory Instance { get; } = new TodoFactory();
+    private TodoFactory() { }
 
     public TodoItem addTodoItem(string context, string path)
     {
@@ -28,7 +29,7 @@ public class TodoFactory
             IcoPath = iconPath,
             Action = e =>
             {
-                return todoDataService.Delete(item); // 返回true表示操作成功，Run会关闭
+                return TodoDataService.Instance.Delete(item); // 返回true表示操作成功，Run会关闭
             }
         };
         return result;
@@ -44,7 +45,7 @@ public class TodoFactory
             IcoPath = iconPath,
             Action = e =>
             {
-                todoDataService.Add(context);
+                TodoDataService.Instance.Add(context);
                 return true; // 返回true表示操作成功，Run会关闭
             }
         };
